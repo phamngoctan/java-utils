@@ -19,30 +19,42 @@ import org.junit.Before;
 import org.junit.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 public class XPathTest {
 
 	private XPath xPath;
 	private String xml;
-	private InputSource xmlDocument;
 
 	@Before
 	public void init() {
 		xPath = XPathFactory.newInstance().newXPath();
-		xml = "<?xml version=\"1.0\"?>\r\n" + "<Employees>\r\n" + "    <Employee emplid=\"1111\" type=\"admin\">\r\n"
-				+ "        <firstname>John</firstname>\r\n" + "        <lastname>Watson</lastname>\r\n"
-				+ "        <age>30</age>\r\n" + "        <email>johnwatson@sh.com</email>\r\n" + "    </Employee>\r\n"
-				+ "    <Employee emplid=\"2222\" type=\"admin\">\r\n" + "        <firstname>Sherlock</firstname>\r\n"
-				+ "        <lastname>Homes</lastname>\r\n" + "        <age>32</age>\r\n"
-				+ "        <email>sherlock@sh.com</email>\r\n" + "    </Employee>\r\n"
-				+ "    <Employee emplid=\"3333\" type=\"user\">\r\n" + "        <firstname>Jim</firstname>\r\n"
-				+ "        <lastname>Moriarty</lastname>\r\n" + "        <age>52</age>\r\n"
-				+ "        <email>jim@sh.com</email>\r\n" + "    </Employee>\r\n"
-				+ "    <Employee emplid=\"4444\" type=\"user\">\r\n" + "        <firstname>Mycroft</firstname>\r\n"
-				+ "        <lastname>Holmes</lastname>\r\n" + "        <age>41</age>\r\n"
-				+ "        <email>mycroft@sh.com</email>\r\n" + "    </Employee>\r\n" + "</Employees>";
+		xml = "<Employees>\r\n" + 
+				"	<Employee emplid=\"1111\" type=\"admin\">\r\n" + 
+				"		<firstname>John</firstname>\r\n" + 
+				"		<lastname>Watson</lastname>\r\n" + 
+				"		<age>30</age>\r\n" + 
+				"		<email>johnwatson@sh.com</email>\r\n" + 
+				"	</Employee>\r\n" + 
+				"	<Employee emplid=\"2222\" type=\"admin\">\r\n" + 
+				"		<firstname>Sherlock</firstname>\r\n" + 
+				"		<lastname>Homes</lastname>\r\n" + 
+				"		<age>32</age>\r\n" + 
+				"		<email>sherlock@sh.com</email>\r\n" + 
+				"	</Employee>\r\n" + 
+				"	<Employee emplid=\"3333\" type=\"user\">\r\n" + 
+				"		<firstname>Jim</firstname>\r\n" + 
+				"		<lastname>Moriarty</lastname>\r\n" + 
+				"		<age>52</age>\r\n" + 
+				"		<email>jim@sh.com</email>\r\n" + 
+				"	</Employee>\r\n" + 
+				"	<Employee emplid=\"4444\" type=\"user\">\r\n" + 
+				"		<firstname>Mycroft</firstname>\r\n" + 
+				"		<lastname>Holmes</lastname>\r\n" + 
+				"		<age>41</age>\r\n" + 
+				"		<email>mycroft@sh.com</email>\r\n" + 
+				"	</Employee>\r\n" + 
+				"</Employees>";
 	}
 
 	@Test
