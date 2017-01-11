@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<DeclareSalary xmlns:ct="http://www.swissdec.ch/schema/sd/20130514/SalaryDeclarationContainer" xmlns:sd="http://www.swissdec.ch/schema/sd/20130514/SalaryDeclaration" xmlns="http://www.swissdec.ch/schema/sd/20130514/SalaryDeclarationServiceTypes" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <ct:RequestContext>
+        <ct:UserAgent>
+            <ct:Producer>swissdec</ct:Producer>
+            <ct:Name>Roncaglioni</ct:Name>
+            <ct:Version>FINAL</ct:Version>
+            <ct:Certificate>none</ct:Certificate>
+            <ct:ELM-SalaryStandardVersion>4.0</ct:ELM-SalaryStandardVersion>
+        </ct:UserAgent>
+        <ct:CompanyName>
+            <sd:HR-RC-Name>Muster AG</sd:HR-RC-Name>
+        </ct:CompanyName>
+        <ct:TransmissionDate>2013-08-08T15:49:06</ct:TransmissionDate>
+        <ct:RequestID>026911492</ct:RequestID>
+        <ct:LanguageCode>de</ct:LanguageCode>
+        <ct:MonitoringID>swissdec</ct:MonitoringID>
+    </ct:RequestContext>
+    <ct:Job>
+        <ct:Addressees>
+            <ct:AHV-AVS institutionIDRef="#AHV-AVS">
+                <ct:ProcessByDistributor>true</ct:ProcessByDistributor>
+            </ct:AHV-AVS>
+            <ct:UVG-LAA institutionIDRef="#UVG-LAA-SUVA">
+                <ct:ProcessByDistributor>true</ct:ProcessByDistributor>
+            </ct:UVG-LAA>
+            <ct:UVGZ-LAAC institutionIDRef="#UVGZ-LAAC7">
+                <ct:ProcessByDistributor>true</ct:ProcessByDistributor>
+            </ct:UVGZ-LAAC>
+            <ct:KTG-AMC institutionIDRef="#KTG-AMC4">
+                <ct:ProcessByDistributor>true</ct:ProcessByDistributor>
+            </ct:KTG-AMC>
+            <ct:FAK-CAF institutionIDRef="#002">
+                <ct:ProcessByDistributor>true</ct:ProcessByDistributor>
+            </ct:FAK-CAF>
+            <ct:FAK-CAF institutionIDRef="#003">
+                <ct:ProcessByDistributor>true</ct:ProcessByDistributor>
+            </ct:FAK-CAF>
+            <ct:FAK-CAF institutionIDRef="#019">
+                <ct:ProcessByDistributor>true</ct:ProcessByDistributor>
+            </ct:FAK-CAF>
+            <ct:Tax>
+                <ct:ProcessByDistributor>true</ct:ProcessByDistributor>
+            </ct:Tax>
+            <ct:Statistic>
+                <ct:ProcessByDistributor>true</ct:ProcessByDistributor>
+            </ct:Statistic>
+        </ct:Addressees>
+    </ct:Job>
+    <ct:SalaryDeclaration schemaVersion="0.0">
+        <sd:Company>
+            <sd:Staff>
+                <sd:Person>
+                    <sd:AHV-AVS-Salaries>
+                        <sd:AHV-AVS-Salary>
+                            <sd:AHV-AVS-Income>1000.00</sd:AHV-AVS-Income>
+                        </sd:AHV-AVS-Salary>
+                    </sd:AHV-AVS-Salaries>
+                </sd:Person>
+            </sd:Staff>
+        </sd:Company>
+    </ct:SalaryDeclaration>
+</DeclareSalary>

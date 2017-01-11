@@ -9,8 +9,9 @@
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<version.javaee-api>7.0</version.javaee-api>
+		<xmlunit.version>2.3.0</xmlunit.version>
 	</properties>
-
+	
 	<build>
 		<plugins>
 			<plugin>
@@ -54,6 +55,17 @@
             <artifactId>commons-beanutils</artifactId>
             <version>1.9.2</version>
             <type>jar</type>
+        </dependency>
+        <!-- Xml comparison -->
+        <dependency>
+            <groupId>org.xmlunit</groupId>
+            <artifactId>xmlunit-core</artifactId>
+            <version>${xmlunit.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.xmlunit</groupId>
+            <artifactId>xmlunit-matchers</artifactId>
+            <version>${xmlunit.version}</version>
         </dependency>
     </dependencies>
 	

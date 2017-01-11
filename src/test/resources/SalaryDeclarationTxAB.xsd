@@ -1,0 +1,1028 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:sdtab="http://www.swissdec.ch/schema/sd/20130514/SalaryDeclarationTxAB"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="http://www.swissdec.ch/schema/sd/20130514/SalaryDeclarationTxAB"
+           elementFormDefault="qualified" attributeFormDefault="unqualified" version="0.0">
+
+    <!-- state of standardisation: FINAL
+         publication: 2013-05-21
+         a. boehm
+    -->
+
+
+    <!--
+         Include -->
+    <xs:include schemaLocation="20130514SalaryDeclaration_Tax_noNS.xsd"/>
+    <!--
+
+        elements -->
+    <xs:element name="T" type="sdtab:SalaryDeclarationTaxAccBcdType"/>
+    <!--
+
+        SalaryDeclaration Tax with 2dBarcode
+    -->
+    <xs:complexType name="SalaryDeclarationTaxAccBcdType">
+        <xs:sequence>
+            <!--
+                company data -->
+            <xs:element name="Company" type="sdtab:CompanyIDType">
+                <xs:annotation>
+                    <xs:documentation xml:lang="de">
+                        <translation>Unternehmen</translation>
+                        <description>
+                            <short>Unternehmenbeschreibung</short>
+                        </description>
+                    </xs:documentation>
+                    <xs:documentation xml:lang="fr">
+                        <translation>Entreprise</translation>
+                        <description>
+                            <short>Description d'entreprise</short>
+                        </description>
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <!--
+                person data -->
+            <xs:element name="PersonID" type="sdtab:PersonIDType">
+                <xs:annotation>
+                    <xs:documentation xml:lang="de">
+                        <translation>PersonID</translation>
+                        <description>
+                            <short>Identifikation der Person</short>
+                        </description>
+                    </xs:documentation>
+                    <xs:documentation xml:lang="fr">
+                        <translation>PersonID</translation>
+                        <description>
+                            <short>Identification de la Person</short>
+                        </description>
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <!--
+                salary data -->
+            <xs:choice>
+                <!--
+                    text-recombine
+                    with namespace sd:http://www.swissdec.ch/schema/sd/20051002/SalaryDeclaration -->
+                <xs:element name="A" type="sdtab:TaxAnnuityType">
+                    <xs:annotation>
+                        <xs:documentation xml:lang="de">
+                            <translation>Steuerbare Rente (B)</translation>
+                            <description>
+                                <short>Rente gemäss Rentenbescheinigung</short>
+                            </description>
+                        </xs:documentation>
+                        <xs:documentation xml:lang="fr">
+                            <translation>Rente imposable (B)</translation>
+                            <description>
+                                <short>Rente selon l'attestation de rentes</short>
+                            </description>
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="S" type="sdtab:TaxSalaryType">
+                    <xs:annotation>
+                        <xs:documentation xml:lang="de">
+                            <translation>Steuerbares Einkommen (A)</translation>
+                            <description>
+                                <short>Einkommen gemäss Lohnausweis</short>
+                            </description>
+                        </xs:documentation>
+                        <xs:documentation xml:lang="fr">
+                            <translation>Revenu imposable (A)</translation>
+                            <description>
+                                <short>Revenu selon le certificat de salaire</short>
+                            </description>
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <!--
+                    reduced definition in tns namespace  -->
+                <xs:element name="R" type="sdtab:ReducedTaxSalaryType">
+                    <xs:annotation>
+                        <xs:documentation xml:lang="de">
+                            <translation>Steuerbares Einkommen (A) Datenvolumen reduziert</translation>
+                            <description>
+                                <short>Einkommen gemäss Lohnausweis für 2DBarcode reduziert</short>
+                                <technical>Die reduzierte Struktur wird in den Fällen verwendet, in welchen die
+                                    Datenmenge auch nach dem Komprimieren für den 2DBarcode immer noch zu gross ist.
+                                    PDF417 ISO/IEC 15438 Standard erlaubt 1108 Bytes zu codieren.
+                                </technical>
+                            </description>
+                        </xs:documentation>
+                        <xs:documentation xml:lang="fr">
+                            <translation>Revenu imposable (A) Volume de données réduit</translation>
+                            <description>
+                                <short>Revenu selon le certificat de salaire réduit du au code
+                                    barres
+                                </short>
+                                <technical>La structure réduite est utilisée dans les cas où la
+                                    quantité de données est trop grande pour le code barres 2D même
+                                    après avoir été comprimée. Le standard PDF417 ISO/IEC 15438
+                                    permet de coder au plus 1108 Bytes.
+                                </technical>
+                            </description>
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+            </xs:choice>
+        </xs:sequence>
+        <xs:attribute name="SID" type="sdtab:SIDType" use="required">
+            <xs:annotation>
+                <xs:documentation xml:lang="de">
+                    <translation>SystemID</translation>
+                    <description>
+                        <short>SystemID, Kennzeichen des Herstellers</short>
+                        <technical>Die SystemID wird während der Zertifizierung definiert und durch swissdec
+                            verwaltet und publiziert.
+                        </technical>
+                    </description>
+                </xs:documentation>
+                <xs:documentation xml:lang="fr">
+                    <translation>SystemID</translation>
+                    <description>
+                        <short>SystemID, Identification du développeur</short>
+                        <technical>Le SystemID est défini pendant la certification. Il est
+                            administré et publié par swissdec.
+                        </technical>
+                    </description>
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="SysV" type="sdtab:SysVType" use="required">
+            <xs:annotation>
+                <xs:documentation xml:lang="de">
+                    <translation>SystemVersion</translation>
+                    <description>
+                        <short>SystemVersion</short>
+                        <technical>Die SystemVersion wird durch den Hersteller gepflegt. In Problemfällen wird
+                            damit die Suche nach der Ursache eingegrenzt.
+                        </technical>
+                    </description>
+                </xs:documentation>
+                <xs:documentation xml:lang="fr">
+                    <translation>SystemVersion</translation>
+                    <description>
+                        <short>SystemVersion</short>
+                        <technical>SystemVersion est administré par le développeur. Au cas de
+                            problèmes, la vérsion aide à analyser la cause de l'erreur.
+                        </technical>
+                    </description>
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+    <!--
+        CompanyType -->
+    <xs:complexType name="CompanyIDType">
+        <xs:attribute name="UID-BFS" type="sdtab:UID-BFSType" use="optional">
+            <xs:annotation>
+                <xs:documentation xml:lang="de">
+                    <translation>Unternehmensidentifikation</translation>
+                    <description>
+                        <short>Unternehmensidentifikation nach BFS
+                        </short>
+                    </description>
+                </xs:documentation>
+                <xs:documentation xml:lang="fr">
+                    <translation>Identification de l'entreprise</translation>
+                    <description>
+                        <short>Identification de l'entreprise selon l’OFS
+                        </short>
+                    </description>
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="HR-RC-Name" type="sdtab:HR-RC-NameType" use="required">
+            <xs:annotation>
+                <xs:documentation xml:lang="de">
+                    <translation>Name oder HR-Name</translation>
+                    <description>
+                        <short>Name oder HR-Name des Unternehmens</short>
+                        <domain>Falls eine eingetragener Handelsregisternamen vorhanden ist, muss dieser Name
+                            verwendet werden.
+                        </domain>
+                    </description>
+                </xs:documentation>
+                <xs:documentation xml:lang="fr">
+                    <translation>Nom ou nom RC</translation>
+                    <description>
+                        <short>Nom ou nom RC de l'entreprise.</short>
+                        <domain>S'il existe un nom inscrit au registre de commerce, il faut
+                            utiliser celui-ci.
+                        </domain>
+                    </description>
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="ZIP" type="sdtab:ReducedZIP-CodeType" use="required">
+            <xs:annotation>
+                <xs:documentation xml:lang="de">
+                    <translation>PLZ Unternehmen</translation>
+                    <description>
+                        <short>Postleitzahl</short>
+                    </description>
+                </xs:documentation>
+                <xs:documentation xml:lang="fr">
+                    <translation>CP Entreprise</translation>
+                    <description>
+                        <short>Code postal</short>
+                    </description>
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+    <!--
+        PersonIDType -->
+    <xs:complexType name="PersonIDType">
+        <xs:choice>
+            <xs:element name="SV-AS-Nr" type="sdtab:SV-AS-NumberType">
+                <xs:annotation>
+                    <xs:documentation xml:lang="de">
+                        <translation>Sozialversicherungsnummer (Prio 2)</translation>
+                        <description>
+                            <short>Von der Zentrale-Ausgleichsstelle (ZAS) zugeteilte Sozialversicherungsnummer</short>
+                            <domain>Ab Einführung ist die 13-stellige Sozialversicherungsnummer zu erfassen.
+                                Diese wird von der Zentralen Ausgleichsstelle zugeteilt.
+                            </domain>
+                        </description>
+                    </xs:documentation>
+                    <xs:documentation xml:lang="fr">
+                        <translation>Numéro d'assurance sociale (2eme priorité)</translation>
+                        <description>
+                            <short>Numéro d'assurance sociale attribué par la centrale de
+                                compensation (CdC)
+                            </short>
+                            <domain>A partir de son introduction, le numéro d'assurance sociale à 13
+                                chiffres doit être saisi. Le numéro est attribué par la centrale de
+                                compensation (CdC).
+                            </domain>
+                        </description>
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="DateOfBirth" type="xs:date">
+                <xs:annotation>
+                    <xs:documentation xml:lang="de">
+                        <translation>Geburtsdatum (Prio 3)</translation>
+                        <description>
+                            <short>Geburtsdatum der Person, sofern SV- oder AHV-Nr unbekannt sind</short>
+                        </description>
+                    </xs:documentation>
+                    <xs:documentation xml:lang="fr">
+                        <translation>Date de naissance (3eme priorité)</translation>
+                        <description>
+                            <short>Date de naissance de la personne au cas où les numéros AS et AVS
+                                ne sont pas connus.
+                            </short>
+                        </description>
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="unknown" type="sdtab:EmptyType">
+                <xs:annotation>
+                    <xs:documentation xml:lang="de">
+                        <translation>unbekannt (Prio 4)</translation>
+                        <description>
+                            <short>Die AHV-Nummer und die Sozialversicherungsnummer und das Geburtsdatum sind
+                                unbekannt.
+                            </short>
+                        </description>
+                    </xs:documentation>
+                    <xs:documentation xml:lang="fr">
+                        <translation>inconnu (4eme priorité)</translation>
+                        <description>
+                            <short>Die AHV-Nummer und die Sozialversicherungsnummer und das
+                                Geburtsdatum sind unbekannt.
+                            </short>
+                        </description>
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:choice>
+        <xs:attribute name="Lastname" type="sdtab:LastnameType" use="required">
+            <xs:annotation>
+                <xs:documentation xml:lang="de">
+                    <translation>Nachname</translation>
+                    <description>
+                        <short>Vollständiger Familienname der Person</short>
+                        <domain>Name gemäss amtlichem Papier (z.B. Versicherungsnachweis)</domain>
+                    </description>
+                </xs:documentation>
+                <xs:documentation xml:lang="fr">
+                    <translation>Nom</translation>
+                    <description>
+                        <short>Nom complet de la personne</short>
+                        <domain>Nom selon papier officiel (p.e. attestation d'assurance)</domain>
+                    </description>
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="Firstname" type="sdtab:FirstnameType" use="required">
+            <xs:annotation>
+                <xs:documentation xml:lang="de">
+                    <translation>Vorname</translation>
+                    <description>
+                        <short>Vorname(n) der Person</short>
+                        <domain>Vorname gemäss amtlichem Papier (z.B. Versicherungsnachweis)</domain>
+                    </description>
+                </xs:documentation>
+                <xs:documentation xml:lang="fr">
+                    <translation>Prénom</translation>
+                    <description>
+                        <short>Prénom(s) de la personne</short>
+                        <domain>Prénom selon papier officiel (p.e. attestation d'assurance)
+                        </domain>
+                    </description>
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="ZIP" type="sdtab:ReducedZIP-CodeType" use="required">
+            <xs:annotation>
+                <xs:documentation xml:lang="de">
+                    <translation>PLZ Wohnort der Person</translation>
+                    <description>
+                        <short>Postleitzahl</short>
+                    </description>
+                </xs:documentation>
+                <xs:documentation xml:lang="fr">
+                    <translation>CP du lieu de la personne</translation>
+                    <description>
+                        <short>Code postal</short>
+                    </description>
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+    <!--
+        ************************************
+        reduced taxSalary for 2dbarcode
+        2dbarcode-data-type:
+    -->
+    <xs:complexType name="ReducedTaxSalaryType">
+        <xs:sequence>
+            <!-- non-reduced data
+                xs:element name="Period" type="sdtab:TimePeriodType" -->
+            <xs:element name="from" type="sdtab:AttributeDateType">
+                <xs:annotation>
+                    <xs:documentation xml:lang="de">
+                        <translation>von</translation>
+                    </xs:documentation>
+                    <xs:documentation xml:lang="fr">
+                        <translation>depuis</translation>
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="until" type="sdtab:AttributeDateType">
+                <xs:annotation>
+                    <xs:documentation xml:lang="de">
+                        <translation>bis</translation>
+                    </xs:documentation>
+                    <xs:documentation xml:lang="fr">
+                        <translation>jusqu'à</translation>
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="FreeTransport" type="sdtab:EmptyType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation xml:lang="de">
+                        <translation>Unentgeltliche Beförderung (F)</translation>
+                    </xs:documentation>
+                    <xs:documentation xml:lang="fr">
+                        <translation>Transport gratuit (F)</translation>
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="CanteenLunchCheck" type="sdtab:EmptyType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation xml:lang="de">
+                        <translation>Kantinenverpflegung / Lunch-Checks (G)</translation>
+                    </xs:documentation>
+                    <xs:documentation xml:lang="fr">
+                        <translation>Repas à la cantine / Chèques-repas (G)</translation>
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Income" type="sdtab:SalaryAmountAttributeType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation xml:lang="de">
+                        <translation>Lohn (z1)</translation>
+                    </xs:documentation>
+                    <xs:documentation xml:lang="fr">
+                        <translation>Salaire (z1)</translation>
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="FringeBenefits" type="sdtab:ReducedFringeBenefitsType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation xml:lang="de">
+                        <translation>Gehaltsnebenleistungen (z2)</translation>
+                    </xs:documentation>
+                    <xs:documentation xml:lang="fr">
+                        <translation>Prestations salariales (z2)</translation>
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <!-- reduced without text -->
+            <xs:element name="SporadicBenefits" type="sdtab:SalaryAmountAttributeType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation xml:lang="de">
+                        <translation>Unregelmässige Leistungen (z3)</translation>
+                    </xs:documentation>
+                    <xs:documentation xml:lang="fr">
+                        <translation>Prestations non périodiques (z3)</translation>
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <!-- reduced without text -->
+            <xs:element name="CapitalPayment" type="sdtab:SalaryAmountAttributeType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation xml:lang="de">
+                        <translation>Kapitalleistungen (z4)</translation>
+                    </xs:documentation>
+                    <xs:documentation xml:lang="fr">
+                        <translation>Prestations en capital (z4)</translation>
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="OwnershipRight" type="sdtab:SalaryAmountAttributeType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation xml:lang="de">
+                        <translation>Beteiligungsrechte (z5)</translation>
+                    </xs:documentation>
+                    <xs:documentation xml:lang="fr">
+                        <translation>Droits de participation (z5)</translation>
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="BoardOfDirectorsRemuneration" type="sdtab:SalaryAmountAttributeType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation xml:lang="de">
+                        <translation>Verwaltungsratsentschädigungen (z6)</translation>
+                    </xs:documentation>
+                    <xs:documentation xml:lang="fr">
+                        <translation>Indemnités des membres de l'administration (z6)</translation>
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <!-- reduced without text -->
+            <xs:element name="OtherBenefits" type="sdtab:SalaryAmountAttributeType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation xml:lang="de">
+                        <translation>Andere Leistungen (z7)</translation>
+                    </xs:documentation>
+                    <xs:documentation xml:lang="fr">
+                        <translation>Autres prestations (z7)</translation>
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="GrossIncome" type="sdtab:SalaryAmountAttributeType">
+                <xs:annotation>
+                    <xs:documentation xml:lang="de">
+                        <translation>Bruttolohn STV (z8)</translation>
+                    </xs:documentation>
+                    <xs:documentation xml:lang="fr">
+                        <translation>Salaire brut AFC (z8)</translation>
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="AHV-ALV-NBUV-AVS-AC-AANP-Contribution" type="sdtab:SalaryAmountAttributeType"
+                        minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation xml:lang="de">
+                        <translation>AHV-IV-EO-ALV-NBUV Beiträge (z9)</translation>
+                    </xs:documentation>
+                    <xs:documentation xml:lang="fr">
+                        <translation>Cotisations AVS/AI/APG/AC/AANP (z9)</translation>
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="BVG-LPP-Contribution" type="sdtab:ReducedBVG-LPP-ContributionType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation xml:lang="de">
+                        <translation>Berufliche Vorsorge (z10)</translation>
+                    </xs:documentation>
+                    <xs:documentation xml:lang="fr">
+                        <translation>Prévoyance professionnelle (z10)</translation>
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="NetIncome" type="sdtab:SalaryAmountAttributeType">
+                <xs:annotation>
+                    <xs:documentation xml:lang="de">
+                        <translation>Nettolohn STV (z11)</translation>
+                    </xs:documentation>
+                    <xs:documentation xml:lang="fr">
+                        <translation>Salaire net AFC (z11)</translation>
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="DeductionAtSource" type="sdtab:SalaryAmountAttributeType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation xml:lang="de">
+                        <translation>Quellensteuerabzug (z12)</translation>
+                    </xs:documentation>
+                    <xs:documentation xml:lang="fr">
+                        <translation>Retenue de l'impôt à la source (z12)</translation>
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <!-- reduced without standard-text -->
+            <xs:element name="ChargesRule" type="sdtab:ReducedChargesRuleType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation xml:lang="de">
+                        <translation>Spesenregelung</translation>
+                    </xs:documentation>
+                    <xs:documentation xml:lang="fr">
+                        <translation>Réglementation des frais</translation>
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <!-- reduced without text -->
+            <xs:element name="Charges" type="sdtab:ReducedChargesType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation xml:lang="de">
+                        <translation>Spesenvergütung (z13)</translation>
+                    </xs:documentation>
+                    <xs:documentation xml:lang="fr">
+                        <translation>Allocations pour frais (z13)</translation>
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="OFB-Exist" type="sdtab:EmptyType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation xml:lang="de">
+                        <translation>OtherFringeBenefits= Weitere Gehaltsnebenleistungen (z14)</translation>
+                        <short>Ein OtherFringeBenefits-Text existiert = Weitere Gehaltsnebenleistungen (z14)
+                        </short>
+                    </xs:documentation>
+                    <xs:documentation xml:lang="fr">
+                        <translation>OtherFringeBenefits=Autres prestations salariales accessoires
+                            (z14)
+                        </translation>
+                        <short>Il existe un texte dans OtherFringeBenefits</short>
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="SR" type="sdtab:ReducedStandardRemarkType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation xml:lang="de">
+                        <translation>StandardRemark= Standard Bemerkungen (z15)</translation>
+                    </xs:documentation>
+                    <xs:documentation xml:lang="fr">
+                        <translation>StandardRemark=Observations standard (z15)</translation>
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="R-Exist" type="sdtab:EmptyType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation xml:lang="de">
+                        <translation>Bemerkungen (z15)</translation>
+                        <short>Ein Remark-Text existiert = Bemerkungen (z15)</short>
+                    </xs:documentation>
+                    <xs:documentation xml:lang="fr">
+                        <translation>Observations (z15)</translation>
+                        <short>Il existe un texte dans Remark</short>
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <!--
+        ************************************
+        reduced taxSalary for 2dbarcode
+        2dbarcode-sub-data-type:
+    -->
+    <xs:complexType name="AttributeDateType">
+        <xs:complexContent>
+            <xs:extension base="sdtab:EmptyType">
+                <xs:attribute name="d" type="xs:date" use="required"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="SalaryAmountAttributeType">
+        <xs:complexContent>
+            <xs:extension base="sdtab:EmptyType">
+                <xs:attribute name="v" type="sdtab:ReducedSalaryAmountType" use="required"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="ReducedFringeBenefitsType">
+        <xs:sequence>
+            <xs:element name="FoodLodging" type="sdtab:SalaryAmountAttributeType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation xml:lang="de">
+                        <translation>Verpflegung Unterkunft (z2.1)</translation>
+                    </xs:documentation>
+                    <xs:documentation xml:lang="fr">
+                        <translation>Pension, logement (z2.1)</translation>
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="CompanyCar" type="sdtab:SalaryAmountAttributeType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation xml:lang="de">
+                        <translation>Privatanteil Geschäftswagen (z2.2)</translation>
+                    </xs:documentation>
+                    <xs:documentation xml:lang="fr">
+                        <translation>Part privée voiture de service (z2.2)</translation>
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <!-- reduced without text -->
+            <xs:element name="Other" type="sdtab:SalaryAmountAttributeType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation xml:lang="de">
+                        <translation>Andere (z2.3)</translation>
+                    </xs:documentation>
+                    <xs:documentation xml:lang="fr">
+                        <translation>Autres (z2.3)</translation>
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="ReducedBVG-LPP-ContributionType">
+        <xs:sequence>
+            <xs:element name="Regular" type="sdtab:SalaryAmountAttributeType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation xml:lang="de">
+                        <translation>Ordentliche Beiträge (z10.1)</translation>
+                    </xs:documentation>
+                    <xs:documentation xml:lang="fr">
+                        <translation>Cotisations ordinaires (z10.1)</translation>
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Purchase" type="sdtab:SalaryAmountAttributeType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation xml:lang="de">
+                        <translation>Beiträge für den Einkauf (z10.2)</translation>
+                    </xs:documentation>
+                    <xs:documentation xml:lang="fr">
+                        <translation>Cotisations pour le rachat (z10.2)</translation>
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="ReducedChargesRuleType">
+        <xs:choice>
+            <xs:element name="WithRegulation" type="sdtab:ReducedGrantType">
+                <xs:annotation>
+                    <xs:documentation xml:lang="de">
+                        <translation>Spesenreglement(z15/rz55,56,65)</translation>
+                    </xs:documentation>
+                    <xs:documentation xml:lang="fr">
+                        <translation>Réglement relatif aux frais(z15/rz55,56,65)</translation>
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Guidance" type="sdtab:EmptyType">
+                <xs:annotation>
+                    <xs:documentation xml:lang="de">
+                        <translation>Kreuz Spesenregelung gemäss (z13.1.1-X/rz52,56)</translation>
+                    </xs:documentation>
+                    <xs:documentation xml:lang="fr">
+                        <translation>Case à cocher, réglement relatif aux frais
+                            (z13.1.1-X/rz52,56)
+                        </translation>
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:choice>
+    </xs:complexType>
+    <xs:complexType name="ReducedGrantType">
+        <xs:sequence>
+            <xs:element name="A" type="xs:date">
+                <xs:annotation>
+                    <xs:documentation xml:lang="de">
+                        <translation>Allowed=Genehmigt-Datum</translation>
+                    </xs:documentation>
+                    <xs:documentation xml:lang="fr">
+                        <translation>Allowed=Date de l'approbation</translation>
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="C" type="sdtab:CantonAddressType">
+                <xs:annotation>
+                    <xs:documentation xml:lang="de">
+                        <translation>Canton=Genehmigungs-Kanton</translation>
+                    </xs:documentation>
+                    <xs:documentation xml:lang="fr">
+                        <translation>Canton=Canton d'approbation</translation>
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="ReducedStandardRemarkType">
+        <xs:sequence>
+            <xs:element name="SSTC" type="sdtab:EmptyType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation xml:lang="de">
+                        <translation>StaffShareThirdCompany=Mitarbeiterbeteiligung durch Drittgesellschaft
+                            (z15/rz70)
+                        </translation>
+                    </xs:documentation>
+                    <xs:documentation xml:lang="fr">
+                        <translation>StaffShareThirdCompany=Participation de collaborateur octroyée
+                            par une tierce entreprise (z15/rz70)
+                        </translation>
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="CAPA" type="sdtab:EmptyType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation xml:lang="de">
+                        <translation>ChildAllowancePerAHV-AVS=Kinderzulagen durch die Ausgleichkasse bezahlt
+                            (z15/rz15)
+                        </translation>
+                    </xs:documentation>
+                    <xs:documentation xml:lang="fr">
+                        <translation>«ChildAllowancePerAHV-AVS=Allocations pour enfants versés par
+                            la caisse de compensation (z15/rz15)
+                        </translation>
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="RC" type="sdtab:SalaryAmountAttributeType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation xml:lang="de">
+                        <translation>RelocationCosts=Umzugskosten durch Arbeitgeber(z15/rz71)</translation>
+                    </xs:documentation>
+                    <xs:documentation xml:lang="fr">
+                        <translation>RelocationCosts=Remboursement des frais de déménagement versées
+                            par l'employeur (z15/rz71)
+                        </translation>
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="SSMV" type="sdtab:ReducedGrantType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation xml:lang="de">
+                        <translation>StaffShareMarketValue=Mitarbeiterbeteilgung-Verkehrswert (rz68)</translation>
+                        <description>
+                            <short>Ein genehmigter Verkehrswert der Mitarbeiterbeteiligung</short>
+                        </description>
+                    </xs:documentation>
+                    <xs:documentation xml:lang="fr">
+                        <translation>StaffShareMarketValue=Participations de collaborateurs, la
+                            valeur vénale (rz68)
+                        </translation>
+                        <description>
+                            <short>Valeur vénale des participations de collaborateurs agrée par
+                                l'autorité fiscale
+                            </short>
+                        </description>
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="SSWTI" type="sdtab:EmptyType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation xml:lang="de">
+                        <translation>StaffShareWithoutTaxableIncome=Mitarbeiterbeteilgung ohne steuerbares
+                            Einkommen (rz69)
+                        </translation>
+                    </xs:documentation>
+                    <xs:documentation xml:lang="fr">
+                        <translation>StaffShareWithoutTaxableIncome=Participations de
+                            collaborateurs, la valeur vénale (rz68)
+                        </translation>
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="PPCC" type="sdtab:ReducedGrantType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation xml:lang="de">
+                        <translation>PrivatePartCompanyCar=Privatanteil Geschäftswagen (rz21)</translation>
+                        <description>
+                            <short>Ein genehmigter Privatanteil für den Geschäftswagen</short>
+                        </description>
+                    </xs:documentation>
+                    <xs:documentation xml:lang="fr">
+                        <translation>PrivatePartCompanyCar=Part privée voiture de service (rz21)</translation>
+                        <description>
+                            <short>Part privée pour voiture de service agréé par le canton</short>
+                        </description>
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="CCC" type="sdtab:EmptyType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation xml:lang="de">
+                        <translation>CompanyCarClarify=Auto priv.anteil im Veranlagungsverfahren abklären
+                            (rz22)
+                        </translation>
+                    </xs:documentation>
+                    <xs:documentation xml:lang="fr">
+                        <translation>CompanyCarClarify=Part privée pour voiture de service à
+                            vérifier par les autorités fiscales (rz22)
+                        </translation>
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="MECPP" type="sdtab:EmptyType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation xml:lang="de">
+                        <translation>
+                            Mitarbeiter bezahlt (mind.) 0.8% pro Monat Privatanteil Geschäftswagen (rz21)
+                        </translation>
+                    </xs:documentation>
+                    <xs:documentation xml:lang="fr">
+                        <translation>
+                            L'employé a une retenue de 0.8 % ou plus par mois pour la part privée voiture de service
+                            (rz21)
+                        </translation>
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="TASPFO" type="sdtab:EmptyType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation xml:lang="de">
+                        <translation>Einsprachefrist für die Quellensteuer</translation>
+                        <description>
+                            <short>
+                                Die Quellenbesteuerten Personen erhalten hier Informationen bezüglich
+                                der gesetzlichen Einsprachefrist.
+                            </short>
+                        </description>
+                    </xs:documentation>
+                    <xs:documentation xml:lang="fr">
+                        <translation>Délai d'opposition aux impôts à la source</translation>
+                        <description>
+                            <short>Ici les personnes soumit aux impôts à la source reçoivent des
+                                informations sur le délai d'opposition légal.
+                            </short>
+                        </description>
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <!--
+        ReducedChargesType and sub types-->
+    <xs:complexType name="ReducedChargesType">
+        <xs:sequence>
+            <xs:element name="Effective" type="sdtab:ReducedEffectiveType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation xml:lang="de">
+                        <translation>Effektive Spesen (z13.1)</translation>
+                    </xs:documentation>
+                    <xs:documentation xml:lang="fr">
+                        <translation>Frais effectifs (z13.1)</translation>
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="LumpSum" type="sdtab:ReducedLumpSumType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation xml:lang="de">
+                        <translation>Pauschalspesen (z13.2)</translation>
+                    </xs:documentation>
+                    <xs:documentation xml:lang="fr">
+                        <translation>Frais forfaitaires (z13.2)</translation>
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Education" type="sdtab:SalaryAmountAttributeType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation xml:lang="de">
+                        <translation>Beiträge an Weiterbildung (z13.3)</translation>
+                    </xs:documentation>
+                    <xs:documentation xml:lang="fr">
+                        <translation>Contributions au perfectionnement (z13.3)</translation>
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <!--
+        reduced without text -->
+    <xs:complexType name="ReducedEffectiveType">
+        <xs:sequence>
+            <xs:element name="TravelFoodAccommodation" type="sdtab:SalaryAmountAttributeType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation xml:lang="de">
+                        <translation>Reise, Verpflegung, Übernachtung (z13.1.1)</translation>
+                    </xs:documentation>
+                    <xs:documentation xml:lang="fr">
+                        <translation>Contributions au perfectionnement (z13.3)</translation>
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <!-- reduced without text -->
+            <xs:element name="Other" type="sdtab:SalaryAmountAttributeType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation xml:lang="de">
+                        <translation>Andere (z13.1.2)</translation>
+                    </xs:documentation>
+                    <xs:documentation xml:lang="fr">
+                        <translation>Autres (z13.1.2)</translation>
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <!--
+        reduced version -->
+    <xs:complexType name="ReducedLumpSumType">
+        <xs:sequence>
+            <xs:element name="Representation" type="sdtab:SalaryAmountAttributeType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation xml:lang="de">
+                        <translation>Repräsentation (z13.2.1)</translation>
+                    </xs:documentation>
+                    <xs:documentation xml:lang="fr">
+                        <translation>Représentation (z13.2.1)</translation>
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Car" type="sdtab:SalaryAmountAttributeType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation xml:lang="de">
+                        <translation>Auto (z13.2.2)</translation>
+                    </xs:documentation>
+                    <xs:documentation xml:lang="fr">
+                        <translation>Voiture (z13.2.2)</translation>
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <!-- reduced without text -->
+            <xs:element name="Other" type="sdtab:SalaryAmountAttributeType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation xml:lang="de">
+                        <translation>Übrige (z13.2.3)</translation>
+                    </xs:documentation>
+                    <xs:documentation xml:lang="fr">
+                        <translation>Autres (z13.2.3)</translation>
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:simpleType name="ReducedSalaryAmountType">
+        <xs:annotation>
+            <xs:documentation xml:lang="de">
+                <translation>LohnbetragsTyp</translation>
+                <description>
+                    <short>LohnbetragsTyp</short>
+                    <technical/>
+                </description>
+            </xs:documentation>
+            <xs:documentation xml:lang="fr">
+                <translation>Type de montant de salaire</translation>
+                <description>
+                    <short>Type de montant de salaire</short>
+                    <technical/>
+                </description>
+            </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:decimal">
+            <xs:totalDigits value="9"/>
+            <xs:fractionDigits value="0"/>
+            <xs:pattern value="[\-]?[0-9]{1,9}"/>
+            <!-- forbids value '+12345678' -->
+        </xs:restriction>
+    </xs:simpleType>
+    <!--
+
+        simpleTypes
+    -->
+    <xs:simpleType name="FirstnameType">
+        <xs:restriction base="xs:string">
+            <xs:whiteSpace value="collapse"/>
+            <xs:maxLength value="15"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="HR-RC-NameType">
+        <xs:restriction base="xs:string">
+            <xs:whiteSpace value="collapse"/>
+            <xs:maxLength value="30"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="LastnameType">
+        <xs:restriction base="xs:string">
+            <xs:whiteSpace value="collapse"/>
+            <xs:maxLength value="30"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="ReducedZIP-CodeType">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+            <xs:maxLength value="6"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="SIDType">
+        <xs:restriction base="xs:string">
+            <xs:whiteSpace value="collapse"/>
+            <xs:maxLength value="3"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="SysVType">
+        <xs:restriction base="xs:string">
+            <xs:whiteSpace value="collapse"/>
+            <xs:maxLength value="3"/>
+        </xs:restriction>
+    </xs:simpleType>
+</xs:schema>
