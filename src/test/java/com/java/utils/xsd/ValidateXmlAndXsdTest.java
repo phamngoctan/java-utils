@@ -19,22 +19,21 @@ import org.junit.Test;
 public class ValidateXmlAndXsdTest {
 
 	@Test
-	public void test() throws IOException {
+	public void test_exportedFile() throws IOException {
 		ClassLoader classLoader = ValidateXmlAndXsdTest.class.getClassLoader();
-		
-//		InputStream isXml = new FileInputStream(new File(classLoader.getResource("test.xml").getFile()));
-		InputStream isXml2 = new FileInputStream(new File(classLoader.getResource("test2.xml").getFile()));
-//		InputStream test = new FileInputStream(new File(classLoader.getResource("file.xml").getFile()));
-		
-		
-//		InputStream isXsd1 = new FileInputStream(new File(classLoader.getResource("SalaryDeclarationConsumerServiceTypes.xsd").getFile()));
+		InputStream isXml = new FileInputStream(new File(classLoader.getResource("test.xml").getFile()));
 		InputStream isXsd2 = new FileInputStream(new File(classLoader.getResource("SalaryDeclarationServiceTypes.xsd").getFile()));
-//		InputStream isXsd3 = new FileInputStream(new File(classLoader.getResource("SalaryDeclaration.xsd").getFile()));
-		
-//		System.out.println(validateAgainstXSD(isXml, isXsd2));
+		Assert.assertTrue(validateAgainstXSD(isXml, isXsd2));
+		isXsd2.close();
+	}
+	
+	@Test
+	public void test_originalFile() throws IOException {
+		ClassLoader classLoader = ValidateXmlAndXsdTest.class.getClassLoader();
+		InputStream isXml2 = new FileInputStream(new File(classLoader.getResource("correct_xml_file.xml").getFile()));
+		InputStream isXsd2 = new FileInputStream(new File(classLoader.getResource("SalaryDeclarationServiceTypes.xsd").getFile()));
 		Assert.assertTrue(validateAgainstXSD(isXml2, isXsd2));
 		isXsd2.close();
-//		System.out.println(validateAgainstXSD(test, isXsd2));
 	}
 
 	static boolean validateAgainstXSD(InputStream xml, InputStream... xsd) {

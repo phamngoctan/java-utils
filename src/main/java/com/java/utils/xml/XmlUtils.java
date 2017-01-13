@@ -49,7 +49,21 @@ public class XmlUtils {
 		
 		String expression = "/Staff/Person[1]/Particulars";
 		String formattedExpression = formatExpressionToSupportNameSpace(expression);
-		//String includeChildElements = "true";
+		String includeChildElements = "true";
+		boolean shouldIncludeChildElements = Boolean.valueOf(includeChildElements);
+		
+		NodeList nodeListTest = (NodeList) xPath.compile(formatExpressionToSupportNameSpace("/Staff/Person[1]/TaxSalaries/TaxSalary")).evaluate(xmlDocumentForExportedFile, XPathConstants.NODESET);
+		if (shouldIncludeChildElements == true) {
+			if (nodeListTest != null && nodeListTest.getLength() == 1 && nodeListTest.item(0).getChildNodes().getLength() == 1) {
+				throw new IllegalArgumentException("Wrong using include child elements column");
+			}
+		}
+		
+		for (int nodeCount = 0; nodeCount < nodeListTest.getLength(); nodeCount++) {
+			System.out.println(nodeCount);
+			System.out.println("Child list: " + nodeListTest.item(nodeCount).getChildNodes().getLength());
+			System.out.println(nodeListTest.item(nodeCount).getChildNodes().item(nodeCount));
+		}
 		
 		NodeList nodeListForExportedFile = (NodeList) xPath.compile(formattedExpression).evaluate(xmlDocumentForExportedFile, XPathConstants.NODESET);
 		NodeList nodeListForReferenceFile = (NodeList) xPath.compile(formattedExpression).evaluate(xmlDocumentForReferenceFile, XPathConstants.NODESET);

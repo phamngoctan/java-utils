@@ -8,11 +8,16 @@ import java.util.Iterator;
 
 import org.junit.Test;
 import org.xmlunit.builder.DiffBuilder;
+import org.xmlunit.builder.Input;
 import org.xmlunit.diff.ComparisonControllers;
 import org.xmlunit.diff.DefaultNodeMatcher;
 import org.xmlunit.diff.Diff;
 import org.xmlunit.diff.Difference;
 import org.xmlunit.diff.ElementSelectors;
+import org.xmlunit.validation.Languages;
+import org.xmlunit.validation.ValidationProblem;
+import org.xmlunit.validation.ValidationResult;
+import org.xmlunit.validation.Validator;
 
 public class XmlUnitTest {
 
@@ -157,4 +162,28 @@ public class XmlUnitTest {
 	    System.out.println(assertionResult.toString());
 	    assertFalse(assertionResult.toString(), assertionResult.length() == 0);
 	}
+	
+	@Test
+	public void test_makeSureXmlFileFollowXsd() {
+		Validator xmlUnitValidator = Validator.forLanguage(Languages.W3C_XML_SCHEMA_NS_URI);
+		xmlUnitValidator.setSchemaSources(
+				Input.fromFile(this.getClass().getClassLoader()
+						.getResource("SalaryDeclarationServiceTypes.xsd").getFile()).build(),
+				Input.fromFile(this.getClass().getClassLoader()
+						.getResource("SalaryDeclaration.xsd").getFile()).build(),
+				Input.fromFile(this.getClass().getClassLoader()
+						.getResource("SalaryDeclarationContainer.xsd").getFile()).build());
+		StringBuilder assertionResult = new StringBuilder();
+		int assertionErrorCount = 0;
+		 ValidationResult validationResults =
+		 xmlUnitValidator.validateInstance(Input.fromFile(this.getClass().getClassLoader().getResource("correct_xml_file.xml").getFile()).build());
+//		ValidationResult validationResults = xmlUnitValidator.validateInstance(Input.fromByteArray(xmlString.getBytes()).build());
+	    Iterator<ValidationProblem> problems = validationResults.getProblems().iterator();
+	    while (problems.hasNext()) {
+	    	assertionErrorCount++;
+	        assertionResult.append("\nNo ").append(assertionErrorCount).append(": ").append(problems.next().toString());
+	    }
+	    assertTrue(assertionResult.toString(), assertionResult.length() == 0);
+	}
+	
 }
