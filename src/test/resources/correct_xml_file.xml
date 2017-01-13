@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <DeclareSalary xmlns="http://www.swissdec.ch/schema/sd/20130514/SalaryDeclarationServiceTypes"
     xmlns:ct="http://www.swissdec.ch/schema/sd/20130514/SalaryDeclarationContainer"
     xmlns:sd="http://www.swissdec.ch/schema/sd/20130514/SalaryDeclaration"

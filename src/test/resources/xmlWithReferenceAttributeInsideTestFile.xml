@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DeclareSalary xmlns="http://www.swissdec.ch/schema/sd/20130514/SalaryDeclarationServiceTypes" xmlns:ct="http://www.swissdec.ch/schema/sd/20130514/SalaryDeclarationContainer" xmlns:sd="http://www.swissdec.ch/schema/sd/20130514/SalaryDeclaration" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <ct:RequestContext/>
+    <ct:Job>
+        <ct:Addressees>
+            <ct:AHV-AVS institutionIDRef="#AHV1">
+                <ct:ProcessByDistributor>true</ct:ProcessByDistributor>
+            </ct:AHV-AVS>
+            <ct:UVG-LAA institutionIDRef="#UVG1">
+                <ct:ProcessByDistributor>true</ct:ProcessByDistributor>
+            </ct:UVG-LAA>
+        </ct:Addressees>
+    </ct:Job>
+    <ct:SalaryDeclaration schemaVersion="0.0">
+        <sd:Company>
+            <sd:Staff>
+                <sd:Person>
+                    <sd:Particulars>
+                        <sd:Social-InsuranceIdentification>
+                            <sd:SV-AS-Number>756.3426.3448.04</sd:SV-AS-Number>
+                        </sd:Social-InsuranceIdentification>
+                        <sd:EmployeeNumber>67</sd:EmployeeNumber>
+                        <sd:Lastname>Bosshard</sd:Lastname>
+                        <sd:Firstname>Peter</sd:Firstname>
+                        <sd:Sex>M</sd:Sex>
+                        <sd:DateOfBirth>1969-04-11</sd:DateOfBirth>
+                        <sd:Nationality>CH</sd:Nationality>
+                        <sd:CivilStatus>
+                            <sd:Status>married</sd:Status>
+                            <sd:ValidAsOf>1988-09-05</sd:ValidAsOf>
+                        </sd:CivilStatus>
+                        <sd:Address>
+                            <sd:Street>Hauptstrasse 5</sd:Street>
+                            <sd:ZIP-Code>6072</sd:ZIP-Code>
+                            <sd:City>Sachseln</sd:City>
+                            <sd:Country>SWITZERLAND</sd:Country>
+                        </sd:Address>
+                        <sd:ResidenceCanton>OW</sd:ResidenceCanton>
+                        <sd:MunicipalityID>1406</sd:MunicipalityID>
+                    </sd:Particulars>
+                    <sd:AHV-AVS-Salaries>
+                        <sd:AHV-AVS-Salary institutionIDRef="#AHV1">
+                            <sd:AccountingTime>
+                                <sd:from>2013-01-01</sd:from>
+                                <sd:until>2013-12-31</sd:until>
+                            </sd:AccountingTime>
+                            <sd:AHV-AVS-Income>342000.00</sd:AHV-AVS-Income>
+                            <sd:ALV-AC-Income>126000.00</sd:ALV-AC-Income>
+                            <sd:ALVZ-ACS-Income>189000.00</sd:ALVZ-ACS-Income>
+                            <sd:ALV-AC-Open>27000.00</sd:ALV-AC-Open>
+                        </sd:AHV-AVS-Salary>
+                    </sd:AHV-AVS-Salaries>
+                    <sd:UVG-LAA-Salaries>
+                        <sd:UVG-LAA-Salary institutionIDRef="#UVG1">
+                            <sd:AccountingTime>
+                                <sd:from>2013-01-01</sd:from>
+                                <sd:until>2013-12-31</sd:until>
+                            </sd:AccountingTime>
+                            <sd:UVG-LAA-Code>A0</sd:UVG-LAA-Code>
+                            <sd:UVG-LAA-GrossSalary>389350.00</sd:UVG-LAA-GrossSalary>
+                            <sd:UVG-LAA-BaseSalary>342000.00</sd:UVG-LAA-BaseSalary>
+                            <sd:UVG-LAA-ContributorySalary>0.00</sd:UVG-LAA-ContributorySalary>
+                        </sd:UVG-LAA-Salary>
+                    </sd:UVG-LAA-Salaries>
+                </sd:Person>
+            </sd:Staff>
+            <sd:Institutions>
+                <sd:AHV-AVS institutionID="#AHV1">
+                    <sd:AK-CC-BranchNumber>003.000</sd:AK-CC-BranchNumber>
+                    <sd:AK-CC-CustomerNumber>100-9976.9</sd:AK-CC-CustomerNumber>
+                </sd:AHV-AVS>
+                <sd:UVG-LAA institutionID="#UVG1">
+                    <sd:InsuranceCompanyName>Backwork-Versicherungen</sd:InsuranceCompanyName>
+                    <sd:CustomerIdentity>12577.2</sd:CustomerIdentity>
+                    <sd:ContractIdentity>125</sd:ContractIdentity>
+                </sd:UVG-LAA>
+            </sd:Institutions>
+        </sd:Company>
+    </ct:SalaryDeclaration>
+</DeclareSalary>
