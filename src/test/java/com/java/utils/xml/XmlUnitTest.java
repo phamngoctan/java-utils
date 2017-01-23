@@ -17,6 +17,8 @@ import java.util.Iterator;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathFactory;
 
 import org.junit.Test;
 import org.w3c.dom.Document;
@@ -201,16 +203,17 @@ public class XmlUnitTest {
 	}
 	
 	@Test
-	public void test_makeSureDataInReferenceAttribute_isCorrect()
+	public void test_makeSure_AHV_AVS_data_InReferenceAttribute_isCorrect()
 			throws ParserConfigurationException, SAXException, IOException {
 		String expression = "";
 		DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder builder = builderFactory.newDocumentBuilder();
+		XPath xPath = XPathFactory.newInstance().newXPath();
 		Document fullXmlDocumentForReferenceFile = builder.parse(new File(this.getClass().getClassLoader().getResource("correct_xml_file.xml").getFile()));
 		Document fullXmlDocumentForExportedFile = builder.parse(new File(this.getClass().getClassLoader().getResource("xmlWithReferenceAttributeInsideTestFile.xml").getFile()));
 
-		String partialXmlDocumentForReference = " <AHV-AVS-Salaries>\r\n" + 
-				"                        <AHV-AVS-Salary institutionIDRef=\"#AHV1\">\r\n" + 
+		String partialXmlDocumentForReference = "<AHV-AVS-Salaries>\r\n" + 
+				"                        <AHV-AVS-Salary institutionIDRef=\"#AHV-AVS\">\r\n" + 
 				"                            <AccountingTime>\r\n" + 
 				"                                <from>2013-01-01</from>\r\n" + 
 				"                                <until>2013-12-31</until>\r\n" + 
@@ -223,7 +226,7 @@ public class XmlUnitTest {
 				"                    </AHV-AVS-Salaries>";
 		Document partialXmlDocumentForReferenceFileDoc = builder.parse(new ByteArrayInputStream(partialXmlDocumentForReference.getBytes()));
 		String partialXmlDocumentForExported = "<AHV-AVS-Salaries>\r\n" + 
-				"                        <AHV-AVS-Salary institutionIDRef=\"#AHV-AVS\">\r\n" + 
+				"                        <AHV-AVS-Salary institutionIDRef=\"#AHV1\">\r\n" + 
 				"                            <AccountingTime>\r\n" + 
 				"                                <from>2013-01-01</from>\r\n" + 
 				"                                <until>2013-12-31</until>\r\n" + 
@@ -237,7 +240,55 @@ public class XmlUnitTest {
 		Document partialXmlDocumentForExportedFileDoc = builder.parse(new ByteArrayInputStream(partialXmlDocumentForExported .getBytes()));
 		
 		Diff myDiff = DiffBuilder.compare(partialXmlDocumentForReferenceFileDoc).withTest(partialXmlDocumentForExportedFileDoc)
-				.withDifferenceEvaluator(new ConsiderAttributeDifferenceEvaluator("institutionIDRef", fullXmlDocumentForReferenceFile, fullXmlDocumentForExportedFile))
+				.withDifferenceEvaluator(new ConsiderAttributeDifferenceEvaluator("institutionIDRef", fullXmlDocumentForReferenceFile, fullXmlDocumentForExportedFile, xPath))
+				.checkForSimilar().ignoreWhitespace().build();
+
+		StringBuilder assertionResult = new StringBuilder();
+		int assertionErrorCount = 0;
+		Iterator<Difference> iter = myDiff.getDifferences().iterator();
+		while (iter.hasNext()) {
+			assertionErrorCount++;
+			assertionResult.append("\nNo ").append(assertionErrorCount).append(": ").append(expression).append(" ")
+					.append(iter.next().toString());
+		}
+		assertTrue(assertionResult.toString(), assertionResult.length() == 0);
+	}
+	
+	@Test
+	public void test_makeSure_UVG_LAA_data_InReferenceAttribute_isCorrect()
+			throws ParserConfigurationException, SAXException, IOException {
+		String expression = "";
+		DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
+		DocumentBuilder builder = builderFactory.newDocumentBuilder();
+		XPath xPath = XPathFactory.newInstance().newXPath();
+		Document fullXmlDocumentForReferenceFile = builder.parse(new File(this.getClass().getClassLoader().getResource("correct_xml_file.xml").getFile()));
+		Document fullXmlDocumentForExportedFile = builder.parse(new File(this.getClass().getClassLoader().getResource("xmlWithReferenceAttributeInsideTestFile.xml").getFile()));
+
+		String partialXmlDocumentForReference = "<UVG-LAA-Salary institutionIDRef=\"#UVG-LAA-SUVA\">\r\n" + 
+				"                            <AccountingTime>\r\n" + 
+				"                                <from>2013-01-01</from>\r\n" + 
+				"                                <until>2013-12-31</until>\r\n" + 
+				"                            </AccountingTime>\r\n" + 
+				"                            <UVG-LAA-Code>A0</UVG-LAA-Code>\r\n" + 
+				"                            <UVG-LAA-GrossSalary>389350.00</UVG-LAA-GrossSalary>\r\n" + 
+				"                            <UVG-LAA-BaseSalary>342000.00</UVG-LAA-BaseSalary>\r\n" + 
+				"                            <UVG-LAA-ContributorySalary>0.00</UVG-LAA-ContributorySalary>\r\n" + 
+				"                        </UVG-LAA-Salary>";
+		Document partialXmlDocumentForReferenceFileDoc = builder.parse(new ByteArrayInputStream(partialXmlDocumentForReference.getBytes()));
+		String partialXmlDocumentForExported = "<UVG-LAA-Salary institutionIDRef=\"#UVG1\">\r\n" + 
+				"                            <AccountingTime>\r\n" + 
+				"                                <from>2013-01-01</from>\r\n" + 
+				"                                <until>2013-12-31</until>\r\n" + 
+				"                            </AccountingTime>\r\n" + 
+				"                            <UVG-LAA-Code>A0</UVG-LAA-Code>\r\n" + 
+				"                            <UVG-LAA-GrossSalary>389350.00</UVG-LAA-GrossSalary>\r\n" + 
+				"                            <UVG-LAA-BaseSalary>342000.00</UVG-LAA-BaseSalary>\r\n" + 
+				"                            <UVG-LAA-ContributorySalary>0.00</UVG-LAA-ContributorySalary>\r\n" + 
+				"                        </UVG-LAA-Salary>";
+		Document partialXmlDocumentForExportedFileDoc = builder.parse(new ByteArrayInputStream(partialXmlDocumentForExported .getBytes()));
+		
+		Diff myDiff = DiffBuilder.compare(partialXmlDocumentForReferenceFileDoc).withTest(partialXmlDocumentForExportedFileDoc)
+				.withDifferenceEvaluator(new ConsiderAttributeDifferenceEvaluator("institutionIDRef", fullXmlDocumentForReferenceFile, fullXmlDocumentForExportedFile, xPath))
 				.checkForSimilar().ignoreWhitespace().build();
 
 		StringBuilder assertionResult = new StringBuilder();

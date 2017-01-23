@@ -2,7 +2,6 @@ package com.java.utils.xml;
 
 import java.io.StringWriter;
 import java.util.Arrays;
-import java.util.Iterator;
 
 import javax.ws.rs.NotSupportedException;
 import javax.xml.transform.OutputKeys;
@@ -18,27 +17,26 @@ import javax.xml.xpath.XPathFactory;
 
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
-import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xmlunit.builder.DiffBuilder;
-import org.xmlunit.builder.Input;
 import org.xmlunit.diff.Comparison;
 import org.xmlunit.diff.ComparisonResult;
 import org.xmlunit.diff.DefaultNodeMatcher;
 import org.xmlunit.diff.Diff;
 import org.xmlunit.diff.DifferenceEvaluator;
 import org.xmlunit.diff.ElementSelectors;
-import org.xmlunit.xpath.JAXPXPathEngine;
 
 public class ConsiderAttributeDifferenceEvaluator implements DifferenceEvaluator {
     private String attributeName;
     private Document fullXmlDocumentForReferenceFile;
     private Document fullXmlDocumentForExportedFile;
-    public ConsiderAttributeDifferenceEvaluator(String attributeName, Document fullXmlDocumentForReferenceFile, Document fullXmlDocumentForExportedFile) {
+    private XPath xPath;
+    public ConsiderAttributeDifferenceEvaluator(String attributeName, Document fullXmlDocumentForReferenceFile, Document fullXmlDocumentForExportedFile, XPath xPath) {
         this.attributeName = attributeName;
         this.fullXmlDocumentForReferenceFile = fullXmlDocumentForReferenceFile;
         this.fullXmlDocumentForExportedFile = fullXmlDocumentForExportedFile;
+        this.xPath = xPath; 
     }
     
     @Override
@@ -48,7 +46,7 @@ public class ConsiderAttributeDifferenceEvaluator implements DifferenceEvaluator
         final Node controlNode = comparison.getControlDetails().getTarget();
         if (controlNode instanceof Attr) {
             Attr attr = (Attr) controlNode;
-            XPath xPath = XPathFactory.newInstance().newXPath();
+            xPath = XPathFactory.newInstance().newXPath();
             System.out.println(comparison.getControlDetails().getValue());
             System.out.println(comparison.getControlDetails().getXPath());
             System.out.println(comparison.getControlDetails().getParentXPath());
@@ -58,6 +56,7 @@ public class ConsiderAttributeDifferenceEvaluator implements DifferenceEvaluator
             System.out.println(comparison.getTestDetails().getTarget().getParentNode());
             System.out.println(comparison.getTestDetails().getTarget().getTextContent());
             System.out.println(comparison.getTestDetails().getTarget().getNodeName());
+            System.out.println("========================================");
             
             if (attr.getName().equals(attributeName)) {
     			if (attributeName.equalsIgnoreCase("institutionIDRef")) {
@@ -89,56 +88,29 @@ public class ConsiderAttributeDifferenceEvaluator implements DifferenceEvaluator
     				}
     				
     				if (PersonInstitutionSupportedTag.fromString(currentComparingTag) != null) {
+    					PersonInstitutionSupportedTag personInstitutionTag = null;
     					switch (PersonInstitutionSupportedTag.fromString(currentComparingTag)) {
     					case AHV_AVS_SALARY:
-							try {
-								String referencePathInReferenceFileExpression = "//Institutions/" + PersonInstitutionSupportedTag.AHV_AVS_SALARY.toReferenceTag() + "[@institutionID='" + comparison.getTestDetails().getValue() + "']";
-	    	    				referencePathInReferenceFileExpression = formatExpressionToSupportNameSpace(referencePathInReferenceFileExpression);
-	    	    				System.out.println(referencePathInReferenceFileExpression);
-								NodeList nodeListForReferenceFile = (NodeList) xPath.compile(referencePathInReferenceFileExpression).evaluate(fullXmlDocumentForReferenceFile, XPathConstants.NODESET);
-								for (int i = 0; i < nodeListForReferenceFile.getLength(); i++) {
-									printTags(nodeListForReferenceFile.item(i));
-								}
-								String referenceXml = removeXmlStringNamespaceAndPreamble(nodeToString(nodeListForReferenceFile.item(0)));
-								
-								System.out.println("==================");
-								
-								String referencePathInExportedFile = "//Institutions/" + PersonInstitutionSupportedTag.AHV_AVS_SALARY.toReferenceTag() + "[@institutionID='" + comparison.getControlDetails().getValue() + "']";
-	    	    				referencePathInExportedFile = formatExpressionToSupportNameSpace(referencePathInExportedFile);
-	    	    				System.out.println(referencePathInExportedFile);
-	    	    				NodeList nodeListForExportedFile = (NodeList) xPath.compile(referencePathInExportedFile).evaluate(fullXmlDocumentForExportedFile, XPathConstants.NODESET);
-								for (int i = 0; i < nodeListForExportedFile.getLength(); i++) {
-									printTags(nodeListForExportedFile.item(i));
-								}
-								String actualXml = removeXmlStringNamespaceAndPreamble(nodeToString(nodeListForExportedFile.item(0)));
-								Diff myDiffSimilar = DiffBuilder.compare(referenceXml).withTest(actualXml)
-										.withNodeMatcher(new DefaultNodeMatcher(ElementSelectors.byName))
-										.withDifferenceEvaluator(new IgnoreAttributeDifferenceEvaluator("institutionID"))
-										.ignoreWhitespace().checkForSimilar().build();
-								if (!myDiffSimilar.hasDifferences()) {
-									return ComparisonResult.SIMILAR;
-								}
-							} catch (XPathExpressionException | TransformerException ex) {
-								throw new RuntimeException("Something wrong when do the ConsiderAttributeDifference Evaluator");
-							}
-    	    				
-
+							personInstitutionTag = PersonInstitutionSupportedTag.AHV_AVS_SALARY;
     						break;
     					case FAK_CAF_SALARY:
-    						throw new NotSupportedException("This tag is not supported for comparing");
-    						//break;
+    						personInstitutionTag = PersonInstitutionSupportedTag.FAK_CAF_SALARY;
+    						break;
     					case KTG_AMC_SALARY:
-    						throw new NotSupportedException("This tag is not supported for comparing");
-    						//break;
+    						personInstitutionTag = PersonInstitutionSupportedTag.KTG_AMC_SALARY;
+    						break;
     					case UVG_LAA_SALARY:
-    						throw new NotSupportedException("This tag is not supported for comparing");
-    						//break;
+    						personInstitutionTag = PersonInstitutionSupportedTag.UVG_LAA_SALARY;
+    						break;
     					case UVGZ_LAAC_SALARY:
-    						throw new NotSupportedException("This tag is not supported for comparing");
-    						//break;
+    						personInstitutionTag = PersonInstitutionSupportedTag.UVGZ_LAAC_SALARY;
+    						break;
     					default:
     						break;
     					}
+    					if (personInstitutionTag != null && isPersonInstitutionReferenceCorrectID(comparison, xPath, personInstitutionTag)) {
+							return ComparisonResult.SIMILAR;
+						}
     				}
     			}
             	// keep it as normal
@@ -147,6 +119,40 @@ public class ConsiderAttributeDifferenceEvaluator implements DifferenceEvaluator
         }
         return outcome;
     }
+
+	private boolean isPersonInstitutionReferenceCorrectID(Comparison comparison, XPath xPath, PersonInstitutionSupportedTag referenceTag) {
+		try {
+			String referencePathInReferenceFileExpression = "//Institutions/" + referenceTag.toReferenceTag() + "[@institutionID='" + comparison.getControlDetails().getValue() + "']";
+			referencePathInReferenceFileExpression = formatExpressionToSupportNameSpace(referencePathInReferenceFileExpression);
+			System.out.println(referencePathInReferenceFileExpression);
+			final NodeList nodeListForReferenceFile = (NodeList) xPath.compile(referencePathInReferenceFileExpression).evaluate(fullXmlDocumentForReferenceFile, XPathConstants.NODESET);
+			for (int i = 0; i < nodeListForReferenceFile.getLength(); i++) {
+				printTags(nodeListForReferenceFile.item(i));
+			}
+			final String referenceXml = removeXmlStringNamespaceAndPreamble(nodeToString(nodeListForReferenceFile.item(0)));
+			
+			System.out.println("==================");
+			
+			String referencePathInExportedFile = "//Institutions/" + referenceTag.toReferenceTag() + "[@institutionID='" + comparison.getTestDetails().getValue() + "']";
+			referencePathInExportedFile = formatExpressionToSupportNameSpace(referencePathInExportedFile);
+			System.out.println(referencePathInExportedFile);
+			final NodeList nodeListForExportedFile = (NodeList) xPath.compile(referencePathInExportedFile).evaluate(fullXmlDocumentForExportedFile, XPathConstants.NODESET);
+			for (int i = 0; i < nodeListForExportedFile.getLength(); i++) {
+				printTags(nodeListForExportedFile.item(i));
+			}
+			final String actualXml = removeXmlStringNamespaceAndPreamble(nodeToString(nodeListForExportedFile.item(0)));
+			final Diff myDiffSimilar = DiffBuilder.compare(referenceXml).withTest(actualXml)
+					.withNodeMatcher(new DefaultNodeMatcher(ElementSelectors.byName))
+					.withDifferenceEvaluator(new IgnoreAttributeDifferenceEvaluator("institutionID"))
+					.ignoreWhitespace().checkForSimilar().build();
+			if (!myDiffSimilar.hasDifferences()) {
+				return true;
+			}
+			return false;
+		} catch (XPathExpressionException | TransformerException ex) {
+			throw new RuntimeException("Something wrong when do the ConsiderAttributeDifference Evaluator");
+		}
+	}
     
     private String formatExpressionToSupportNameSpace(String strToFormat) {
 		String[] splitedString = strToFormat.split("/");
